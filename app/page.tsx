@@ -94,7 +94,7 @@ export default function HomePage() {
       crop: "धान",
       income: "₹45,000",
       image: "/images/female-farmer-rice.jpg",
-      story: "KisanSetu से जुड़कर मेरी आमदनी दोगुनी हो गई है। अब मैं सीधे ग्राहकों को बेच सकती हूँ।",
+      story: "KhetSe से जुड़कर मेरी आमदनी दोगुनी हो गई है। अब मैं सीधे ग्राहकों को बेच सकती हूँ।",
     },
     {
       name: "राम सिंह",
@@ -125,8 +125,8 @@ export default function HomePage() {
                 <Leaf className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-800">KisanSetu</h1>
-                <p className="text-sm text-orange-600 font-medium">सीधा सौदा, सीधा भरोसा</p>
+                <h1 className="text-2xl font-bold text-gray-800">KhetSe</h1>
+                <p className="text-sm text-orange-600 font-medium">खेत से सीधे आपके घर तक</p>
               </div>
             </div>
 
@@ -173,10 +173,10 @@ export default function HomePage() {
               transition={{ duration: 0.8 }}
               className="text-center lg:text-left"
             >
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">अन्नदाता से भारत तक</h1>
-              <p className="text-xl md:text-2xl mb-4 text-green-100">सीधा सौदा, सीधा भरोसा</p>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">खेत से सीधे आपके घर तक</h1>
+              <p className="text-xl md:text-2xl mb-4 text-green-100">ताज़ा, सीधा, भरोसेमंद</p>
               <p className="text-lg mb-8 text-green-50 leading-relaxed">
-                Web3 तकनीक के साथ भारतीय किसानों को सशक्त बनाना। आवाज़ की मदद से, ब्लॉकचेन भरोसे के साथ, तुरंत पेमेंट।
+                Web3 तकनीक के साथ भारतीय किसानों को सशक्त बनाना। आवाज़ की मदद से, ब्लॉकचेन भरोसे के साथ, खेत से सीधे आपके घर तक।
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -320,7 +320,7 @@ export default function HomePage() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-800">KisanSetu क्यों चुनें?</h2>
+            <h2 className="text-3xl font-bold mb-4 text-gray-800">KhetSe क्यों चुनें?</h2>
             <p className="text-gray-600">भारत के किसानों के लिए, भारत में बना</p>
           </div>
 
@@ -400,7 +400,7 @@ export default function HomePage() {
                     IPFS Storage
                   </Badge>
                   <Badge variant="secondary" className="bg-green-100 text-green-800">
-                    $KRISHI Token
+                    $KHET Token
                   </Badge>
                 </div>
               </CardContent>

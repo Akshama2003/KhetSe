@@ -3,113 +3,108 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Mic, Plus, Upload, Wallet, TrendingUp, Users, Shield, Camera, MapPin, Leaf, Star, Coins } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Progress } from "@/components/ui/progress"
+import {
+  Mic,
+  Upload,
+  Camera,
+  MapPin,
+  TrendingUp,
+  Wallet,
+  Users,
+  Leaf,
+  ArrowLeft,
+  Plus,
+  Edit,
+  Eye,
+  DollarSign,
+} from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 
-export default function FarmerDashboard() {
+export default function FarmerPage() {
   const [isVoiceActive, setIsVoiceActive] = useState(false)
   const [selectedCrop, setSelectedCrop] = useState("")
   const [cropQuantity, setCropQuantity] = useState("")
   const [cropPrice, setCropPrice] = useState("")
 
-  const farmerProfile = {
-    name: "राम सिंह",
-    location: "करनाल, हरियाणा",
-    image: "/images/male-farmer-cotton.jpg",
-    completeness: 85,
-    totalEarnings: "₹1,25,000",
+  const farmerStats = {
+    totalEarnings: "₹2,45,000",
     monthlyEarnings: "₹45,000",
-    totalCrops: 12,
-    activeCrops: 5,
+    totalSales: 156,
     rating: 4.8,
-    verified: true
+    tokensEarned: "1,250 KHET",
+    activeCrops: 5,
   }
 
-  const myCrops = [
+  const recentSales = [
     {
       id: 1,
-      name: "कपास",
-      quantity: "300 kg",
-      price: "₹45/kg",
-      status: "बिक्री के लिए उपलब्ध",
-      image: "/images/organic-vegetables.jpg",
-      harvestDate: "2024-01-15",
-      views: 45,
-      inquiries: 8
+      crop: "बासमती चावल",
+      quantity: "50 किलो",
+      price: "₹6,000",
+      buyer: "राज कुमार",
+      date: "2 दिन पहले",
+      status: "पूर्ण",
     },
     {
       id: 2,
-      name: "गेहूं",
-      quantity: "500 kg",
-      price: "₹25/kg",
-      status: "बेची गई",
-      image: "/images/wheat-grains.jpg",
-      harvestDate: "2024-01-10",
-      views: 32,
-      inquiries: 12
+      crop: "जैविक टमाटर",
+      quantity: "25 किलो",
+      price: "₹1,000",
+      buyer: "सुनीता शर्मा",
+      date: "5 दिन पहले",
+      status: "डिलीवरी में",
     },
     {
       id: 3,
-      name: "सरसों",
-      quantity: "200 kg",
-      price: "₹35/kg",
-      status: "पैकिंग में",
-      image: "/images/organic-vegetables.jpg",
-      harvestDate: "2024-01-20",
-      views: 28,
-      inquiries: 5
-    }
-  ]
-
-  const recentOrders = [
-    {
-      id: 1,
-      buyer: "राजेश कुमार",
-      crop: "कपास",
-      quantity: "50 kg",
-      amount: "₹2,250",
-      status: "डिलीवर हो गया",
-      blockchain: true,
-    },
-    {
-      id: 2,
-      buyer: "प्रिया शर्मा",
       crop: "गेहूं",
-      quantity: "100 kg",
-      amount: "₹2,500",
-      status: "ट्रांजिट में",
-      blockchain: true,
+      quantity: "100 किलो",
+      price: "₹3,500",
+      buyer: "अमित पटेल",
+      date: "1 सप्ताह पहले",
+      status: "पूर्ण",
     },
   ]
 
-  const fundingOffers = [
+  const activeCrops = [
     {
       id: 1,
-      backer: "अग्रिकल्चर फंड",
-      amount: "₹50,000",
-      crop: "कपास",
-      terms: "6 महीने, 8% ब्याज",
-      status: "स्वीकृत"
+      name: "धान",
+      quantity: "200 किलो",
+      price: "₹40/किलो",
+      planted: "15 जून 2024",
+      expectedHarvest: "15 अक्टूबर 2024",
+      progress: 75,
+      image: "/images/female-farmer-rice.jpg",
     },
     {
       id: 2,
-      backer: "ग्रीन इन्वेस्ट",
-      amount: "₹75,000",
-      crop: "जैविक सब्जी",
-      terms: "4 महीने, 10% रिटर्न",
-      status: "पेंडिंग"
-    }
+      name: "कपास",
+      quantity: "150 किलो",
+      price: "₹85/किलो",
+      planted: "1 जुलाई 2024",
+      expectedHarvest: "1 नवंबर 2024",
+      progress: 60,
+      image: "/images/male-farmer-cotton.jpg",
+    },
   ]
 
   const cropOptions = [
-    "गेहूं", "चावल", "मक्का", "बाजरा", "ज्वार", "दाल", "चना", "मटर", 
-    "सरसों", "सूरजमुखी", "टमाटर", "प्याज", "आलू", "गाजर", "पत्तागोभी", "कपास"
+    { value: "rice", label: "धान/चावल", icon: "🌾" },
+    { value: "wheat", label: "गेहूं", icon: "🌾" },
+    { value: "cotton", label: "कपास", icon: "🌱" },
+    { value: "tomato", label: "टमाटर", icon: "🍅" },
+    { value: "onion", label: "प्याज", icon: "🧅" },
+    { value: "potato", label: "आलू", icon: "🥔" },
+    { value: "sugarcane", label: "गन्ना", icon: "🎋" },
+    { value: "corn", label: "मक्का", icon: "🌽" },
   ]
 
   return (
@@ -118,15 +113,23 @@ export default function FarmerDashboard() {
       <header className="bg-white shadow-sm border-b-2 border-green-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-orange-500 rounded-full flex items-center justify-center">
-                <Leaf className="h-6 w-6 text-white" />
+            <div className="flex items-center gap-4">
+              <Link href="/">
+                <Button variant="ghost" size="sm">
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  वापस
+                </Button>
+              </Link>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-green-600 to-orange-500 rounded-full flex items-center justify-center">
+                  <Leaf className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-gray-800">KhetSe किसान डैशबोर्ड</h1>
+                  <p className="text-xs text-orange-600">आपकी खेती, आपका व्यापार</p>
+                </div>
               </div>
-              <div>
-                <span className="text-xl font-bold text-gray-800">KisanSetu</span>
-                <p className="text-xs text-orange-600">किसान डैशबोर्ड</p>
-              </div>
-            </Link>
+            </div>
 
             <div className="flex items-center gap-4">
               <Button
@@ -136,177 +139,204 @@ export default function FarmerDashboard() {
                 onClick={() => setIsVoiceActive(!isVoiceActive)}
               >
                 <Mic className="h-4 w-4 mr-1" />
-                {isVoiceActive ? "बंद करें" : "आवाज़ सहायक"}
+                {isVoiceActive ? "बंद करें" : "आवाज़ से बोलें"}
               </Button>
-              <Link href="/marketplace">
-                <Button variant="outline" className="border-orange-200 bg-transparent">
-                  बाज़ार देखें
-                </Button>
-              </Link>
+              <Badge className="bg-green-600">
+                <Wallet className="h-3 w-3 mr-1" />
+                {farmerStats.tokensEarned}
+              </Badge>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Voice Assistant Active */}
+      {/* Voice Demo Section */}
       {isVoiceActive && (
         <motion.section
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="py-4 bg-green-600 text-white"
+          className="py-6 bg-green-600 text-white"
         >
           <div className="container mx-auto px-4 text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse delay-75" />
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse delay-150" />
+            <div className="max-w-md mx-auto">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <div className="w-3 h-3 bg-white rounded-full animate-pulse" />
+                <div className="w-3 h-3 bg-white rounded-full animate-pulse delay-75" />
+                <div className="w-3 h-3 bg-white rounded-full animate-pulse delay-150" />
+              </div>
+              <p className="text-lg font-medium mb-2">🎤 सुन रहा हूँ...</p>
+              <p className="text-green-100 text-sm">कहें: "मैं 50 किलो धान बेचना चाहता हूँ" या "आज का भाव क्या है?"</p>
             </div>
-            <p className="text-sm">🎤 कहें: "मैं 50 किलो कपास बेचना चाहता हूँ" या "आज का भाव क्या है?"</p>
           </div>
         </motion.section>
       )}
 
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Panel - Profile & Stats */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Profile Card */}
-            <Card className="border-2 border-green-200">
-              <CardHeader className="text-center">
-                <div className="relative mx-auto w-20 h-20 mb-4">
-                  <img
-                    src={farmerProfile.image || "/placeholder.svg"}
-                    alt={farmerProfile.name}
-                    className="w-full h-full rounded-full object-cover border-2 border-green-300"
-                  />
-                  {farmerProfile.verified && (
-                    <div className="absolute -bottom-1 -right-1 bg-green-600 rounded-full p-1">
-                      <Shield className="h-3 w-3 text-white" />
-                    </div>
-                  )}
-                </div>
-                <CardTitle className="text-xl text-gray-800">{farmerProfile.name}</CardTitle>
-                <CardDescription className="flex items-center justify-center gap-1">
-                  <MapPin className="h-3 w-3" />
-                  {farmerProfile.location}
-                </CardDescription>
-                <div className="flex items-center justify-center gap-1 mt-2">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="font-medium">{farmerProfile.rating}</span>
-                  <Badge className="ml-2 bg-green-600 text-xs">वेरिफाइड</Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span>प्रोफाइल पूर्णता</span>
-                      <span>{farmerProfile.completeness}%</span>
-                    </div>
-                    <Progress value={farmerProfile.completeness} className="h-2" />
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 text-center">
-                    <div className="bg-green-50 p-3 rounded-lg">
-                      <p className="text-2xl font-bold text-green-700">{farmerProfile.totalCrops}</p>
-                      <p className="text-xs text-gray-600">कुल फसलें</p>
-                    </div>
-                    <div className="bg-orange-50 p-3 rounded-lg">
-                      <p className="text-2xl font-bold text-orange-700">{farmerProfile.activeCrops}</p>
-                      <p className="text-xs text-gray-600">सक्रिय फसलें</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+        {/* Stats Overview */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+          <Card className="border-green-200">
+            <CardContent className="p-4 text-center">
+              <DollarSign className="h-8 w-8 text-green-600 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-green-700">{farmerStats.totalEarnings}</p>
+              <p className="text-xs text-gray-600">कुल कमाई</p>
+            </CardContent>
+          </Card>
 
-            {/* Earnings Card */}
-            <Card className="border-2 border-orange-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-orange-700">
-                  <Wallet className="h-5 w-5" />
-                  आमदनी
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-green-700">{farmerProfile.monthlyEarnings}</p>
-                    <p className="text-sm text-gray-600">इस महीने</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xl font-semibold text-gray-700">{farmerProfile.totalEarnings}</p>
-                    <p className="text-sm text-gray-600">कुल आमदनी</p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
-                      <TrendingUp className="h-3 w-3 mr-1" />
-                      रिपोर्ट
-                    </Button>
-                    <Button size="sm" variant="outline" className="border-green-200 bg-transparent">
-                      <Coins className="h-3 w-3 mr-1" />
-                      टोकन
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          <Card className="border-orange-200">
+            <CardContent className="p-4 text-center">
+              <TrendingUp className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-orange-700">{farmerStats.monthlyEarnings}</p>
+              <p className="text-xs text-gray-600">इस महीने</p>
+            </CardContent>
+          </Card>
 
-            {/* Funding Offers */}
-            <Card className="border-2 border-blue-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-blue-700">
-                  <Users className="h-5 w-5" />
-                  फंडिंग ऑफर्स
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {fundingOffers.map((offer) => (
-                    <div key={offer.id} className="p-3 bg-blue-50 rounded-lg">
-                      <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-medium text-sm">{offer.backer}</h4>
-                        <Badge 
-                          variant={offer.status === "स्वीकृत" ? "default" : "secondary"}
-                          className="text-xs"
-                        >
-                          {offer.status}
-                        </Badge>
+          <Card className="border-blue-200">
+            <CardContent className="p-4 text-center">
+              <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-blue-700">{farmerStats.totalSales}</p>
+              <p className="text-xs text-gray-600">कुल बिक्री</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-yellow-200">
+            <CardContent className="p-4 text-center">
+              <div className="text-2xl mb-2">⭐</div>
+              <p className="text-2xl font-bold text-yellow-700">{farmerStats.rating}</p>
+              <p className="text-xs text-gray-600">रेटिंग</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-purple-200">
+            <CardContent className="p-4 text-center">
+              <Wallet className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <p className="text-lg font-bold text-purple-700">{farmerStats.tokensEarned}</p>
+              <p className="text-xs text-gray-600">KHET टोकन</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-green-200">
+            <CardContent className="p-4 text-center">
+              <Leaf className="h-8 w-8 text-green-600 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-green-700">{farmerStats.activeCrops}</p>
+              <p className="text-xs text-gray-600">सक्रिय फसलें</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Tabs defaultValue="dashboard" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 bg-green-50">
+            <TabsTrigger value="dashboard" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">
+              डैशबोर्ड
+            </TabsTrigger>
+            <TabsTrigger value="sell" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">
+              फसल बेचें
+            </TabsTrigger>
+            <TabsTrigger value="crops" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">
+              मेरी फसलें
+            </TabsTrigger>
+            <TabsTrigger value="sales" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">
+              बिक्री इतिहास
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Dashboard Tab */}
+          <TabsContent value="dashboard" className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Active Crops */}
+              <Card className="border-green-200">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-green-700">
+                    <Leaf className="h-5 w-5" />
+                    सक्रिय फसलें
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {activeCrops.map((crop) => (
+                    <div key={crop.id} className="p-4 bg-green-50 rounded-lg">
+                      <div className="flex items-center gap-3 mb-3">
+                        <img
+                          src={crop.image || "/placeholder.svg"}
+                          alt={crop.name}
+                          className="w-12 h-12 object-cover rounded-full"
+                        />
+                        <div>
+                          <h4 className="font-semibold">{crop.name}</h4>
+                          <p className="text-sm text-gray-600">
+                            {crop.quantity} • {crop.price}
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-lg font-bold text-blue-700">{offer.amount}</p>
-                      <p className="text-xs text-gray-600">{offer.crop} • {offer.terms}</p>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span>प्रगति</span>
+                          <span>{crop.progress}%</span>
+                        </div>
+                        <Progress value={crop.progress} className="h-2" />
+                        <p className="text-xs text-gray-600">कटाई: {crop.expectedHarvest}</p>
+                      </div>
                     </div>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
 
-          {/* Right Panel - Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Add New Crop */}
-            <Card className="border-2 border-green-200">
+              {/* Recent Sales */}
+              <Card className="border-orange-200">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-orange-700">
+                    <TrendingUp className="h-5 w-5" />
+                    हाल की बिक्री
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {recentSales.slice(0, 3).map((sale) => (
+                    <div key={sale.id} className="p-4 bg-orange-50 rounded-lg">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h4 className="font-semibold">{sale.crop}</h4>
+                          <p className="text-sm text-gray-600">{sale.quantity}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-green-700">{sale.price}</p>
+                          <Badge variant={sale.status === "पूर्ण" ? "default" : "secondary"} className="text-xs">
+                            {sale.status}
+                          </Badge>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        {sale.buyer} • {sale.date}
+                      </p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Sell Crop Tab */}
+          <TabsContent value="sell" className="space-y-6">
+            <Card className="border-green-200">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-green-700">
                   <Plus className="h-5 w-5" />
-                  नई फसल जोड़ें
+                  नई फसल बेचें
                 </CardTitle>
-                <CardDescription>
-                  आवाज़ की मदद से या मैन्युअल रूप से अपनी फसल की जानकारी दें
-                </CardDescription>
+                <CardDescription>अपनी फसल की जानकारी दें और तुरंत बेचना शुरू करें</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <CardContent className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">फसल का नाम</label>
+                    <Label htmlFor="crop-type">फसल का प्रकार</Label>
                     <Select value={selectedCrop} onValueChange={setSelectedCrop}>
-                      <SelectTrigger>
+                      <SelectTrigger className="border-green-200">
                         <SelectValue placeholder="फसल चुनें" />
                       </SelectTrigger>
                       <SelectContent>
                         {cropOptions.map((crop) => (
-                          <SelectItem key={crop} value={crop}>
-                            {crop}
+                          <SelectItem key={crop.value} value={crop.value}>
+                            <span className="flex items-center gap-2">
+                              <span>{crop.icon}</span>
+                              <span>{crop.label}</span>
+                            </span>
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -314,70 +344,211 @@ export default function FarmerDashboard() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">मात्रा (kg)</label>
+                    <Label htmlFor="quantity">मात्रा (किलो में)</Label>
                     <Input
-                      placeholder="जैसे: 500"
+                      id="quantity"
+                      placeholder="जैसे: 100"
                       value={cropQuantity}
                       onChange={(e) => setCropQuantity(e.target.value)}
+                      className="border-green-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">कीमत (प्रति kg)</label>
+                    <Label htmlFor="price">मूल्य (प्रति किलो)</Label>
                     <Input
-                      placeholder="जैसे: 25"
+                      id="price"
+                      placeholder="जैसे: ₹50"
                       value={cropPrice}
                       onChange={(e) => setCropPrice(e.target.value)}
+                      className="border-green-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">हार्वेस्ट की तारीख</label>
-                    <Input type="date" />
+                    <Label htmlFor="location">स्थान</Label>
+                    <Input id="location" placeholder="गांव, जिला, राज्य" className="border-green-200" />
                   </div>
+                </div>
 
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">विवरण</label>
-                    <Textarea placeholder="अपनी फसल के बारे में बताएं..." />
-                  </div>
+                <div>
+                  <Label htmlFor="description">फसल का विवरण</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="अपनी फसल के बारे में बताएं - गुणवत्ता, जैविक है या नहीं, कब तैयार होगी..."
+                    className="border-green-200"
+                    rows={3}
+                  />
+                </div>
 
-                  <div className="md:col-span-2">
-                    <div className="flex gap-4">
-                      <Button className="flex-1 bg-green-600 hover:bg-green-700">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label>फसल की तस्वीर अपलोड करें</Label>
+                    <div className="border-2 border-dashed border-green-200 rounded-lg p-6 text-center">
+                      <Camera className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600 mb-2">तस्वीर खींचें या अपलोड करें</p>
+                      <Button variant="outline" size="sm">
                         <Upload className="h-4 w-4 mr-2" />
-                        फसल अपलोड करें
+                        फाइल चुनें
                       </Button>
-                      <Button variant="outline" className="border-orange-200 bg-transparent">
-                        <Camera className="h-4 w-4 mr-2" />
-                        फोटो लें
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className={`border-2 ${isVoiceActive ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}`}
-                        onClick={() => setIsVoiceActive(!isVoiceActive)}
-                      >
-                        <Mic className="h-4 w-4 mr-2" />
-                        आवाज़
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label>गुणवत्ता प्रमाणपत्र</Label>
+                    <div className="border-2 border-dashed border-orange-200 rounded-lg p-6 text-center">
+                      <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600 mb-2">जैविक/गुणवत्ता प्रमाणपत्र</p>
+                      <Button variant="outline" size="sm">
+                        <Upload className="h-4 w-4 mr-2" />
+                        अपलोड करें
                       </Button>
                     </div>
                   </div>
                 </div>
+
+                <div className="flex gap-4">
+                  <Button className="flex-1 bg-green-600 hover:bg-green-700">
+                    <Plus className="h-4 w-4 mr-2" />
+                    फसल लिस्ट करें
+                  </Button>
+                  <Button variant="outline" className="border-green-200 bg-transparent">
+                    <Eye className="h-4 w-4 mr-2" />
+                    प्रीव्यू देखें
+                  </Button>
+                </div>
               </CardContent>
             </Card>
+          </TabsContent>
 
-            {/* My Crops */}
-            <Card className="border-2 border-blue-200">
+          {/* My Crops Tab */}
+          <TabsContent value="crops" className="space-y-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {activeCrops.map((crop) => (
+                <Card key={crop.id} className="border-green-200">
+                  <div className="relative">
+                    <img
+                      src={crop.image || "/placeholder.svg"}
+                      alt={crop.name}
+                      className="w-full h-32 object-cover rounded-t-lg"
+                    />
+                    <Badge className="absolute top-2 right-2 bg-green-600">सक्रिय</Badge>
+                  </div>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-lg">{crop.name}</CardTitle>
+                    <CardDescription>
+                      {crop.quantity} • {crop.price}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>फसल की प्रगति</span>
+                          <span>{crop.progress}%</span>
+                        </div>
+                        <Progress value={crop.progress} className="h-2" />
+                      </div>
+
+                      <div className="text-sm space-y-1">
+                        <p>
+                          <span className="font-medium">बुआई:</span> {crop.planted}
+                        </p>
+                        <p>
+                          <span className="font-medium">कटाई:</span> {crop.expectedHarvest}
+                        </p>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline" className="flex-1 bg-transparent">
+                          <Edit className="h-3 w-3 mr-1" />
+                          संपादित करें
+                        </Button>
+                        <Button size="sm" className="flex-1 bg-green-600 hover:bg-green-700">
+                          <Eye className="h-3 w-3 mr-1" />
+                          देखें
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* Sales History Tab */}
+          <TabsContent value="sales" className="space-y-6">
+            <Card className="border-green-200">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-blue-700">
-                  <Leaf className="h-5 w-5" />
-                  मेरी फसलें
+                <CardTitle className="flex items-center gap-2 text-green-700">
+                  <TrendingUp className="h-5 w-5" />
+                  बिक्री का इतिहास
                 </CardTitle>
-                <CardDescription>अपनी सूचीबद्ध फसलों को देखें और प्रबंधित करें</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {myCrops.map((crop) => (
-                    <motion.div
-                      key={crop.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{
+                  {recentSales.map((sale) => (
+                    <div
+                      key={sale.id}
+                      className="p-4 border border-green-100 rounded-lg hover:bg-green-50 transition-colors"
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-semibold text-lg">{sale.crop}</h4>
+                          <p className="text-gray-600">{sale.quantity}</p>
+                          <p className="text-sm text-gray-500">खरीदार: {sale.buyer}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-bold text-green-700">{sale.price}</p>
+                          <Badge variant={sale.status === "पूर्ण" ? "default" : "secondary"} className="mb-1">
+                            {sale.status}
+                          </Badge>
+                          <p className="text-xs text-gray-500">{sale.date}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+
+        {/* Help Section */}
+        <Card className="mt-8 border-blue-200 bg-blue-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-blue-700">
+              <Users className="h-5 w-5" />
+              मदद चाहिए?
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Mic className="h-6 w-6 text-blue-600" />
+                </div>
+                <h4 className="font-semibold mb-2">आवाज़ से मदद</h4>
+                <p className="text-sm text-gray-600">बोलकर अपनी समस्या बताएं</p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Users className="h-6 w-6 text-green-600" />
+                </div>
+                <h4 className="font-semibold mb-2">समुदाय सहायता</h4>
+                <p className="text-sm text-gray-600">अन्य किसानों से जुड़ें</p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <MapPin className="h-6 w-6 text-orange-600" />
+                </div>
+                <h4 className="font-semibold mb-2">स्थानीय सहायता</h4>
+                <p className="text-sm text-gray-600">नजदीकी एजेंट से मिलें</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
