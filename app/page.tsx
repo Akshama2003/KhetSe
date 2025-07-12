@@ -16,19 +16,25 @@ export default function HomePage() {
 
   const bannerImages = [
     {
-      image: "/placeholder.svg?height=400&width=800",
-      title: "राम सिंह जी - गेहूं किसान",
-      subtitle: "हरियाणा से ताज़ा गेहूं",
+      image: "/images/female-farmer-rice.jpg",
+      title: "सुनीता देवी - धान किसान",
+      subtitle: "जैविक धान की खेती",
+      location: "पटना, बिहार",
+    },
+    {
+      image: "/images/male-farmer-cotton.jpg",
+      title: "राम सिंह जी - कपास किसान",
+      subtitle: "हरियाणा से उच्च गुणवत्ता कपास",
       location: "करनाल, हरियाणा",
     },
     {
-      image: "/placeholder.svg?height=400&width=800",
-      title: "सुनीता देवी - टमाटर उत्पादक",
-      subtitle: "जैविक टमाटर की खेती",
+      image: "/images/female-farmer-vegetables.jpg",
+      title: "प्रिया शर्मा - सब्जी उत्पादक",
+      subtitle: "ताज़ी हरी सब्जियों की खेती",
       location: "नासिक, महाराष्ट्र",
     },
     {
-      image: "/placeholder.svg?height=400&width=800",
+      image: "/images/farm-landscape.jpg",
       title: "गुरदीप सिंह - बासमती चावल",
       subtitle: "प्रीमियम बासमती चावल",
       location: "अमृतसर, पंजाब",
@@ -78,6 +84,33 @@ export default function HomePage() {
       icon: <Heart className="h-8 w-8" />,
       title: "किसान को सहारा",
       description: "फसल से पहले फंडिंग, टोकन रिवार्ड्स",
+    },
+  ]
+
+  const successStories = [
+    {
+      name: "सुनीता देवी",
+      location: "पटना, बिहार",
+      crop: "धान",
+      income: "₹45,000",
+      image: "/images/female-farmer-rice.jpg",
+      story: "KisanSetu से जुड़कर मेरी आमदनी दोगुनी हो गई है। अब मैं सीधे ग्राहकों को बेच सकती हूँ।",
+    },
+    {
+      name: "राम सिंह",
+      location: "करनाल, हरियाणा",
+      crop: "कपास",
+      income: "₹65,000",
+      image: "/images/male-farmer-cotton.jpg",
+      story: "आवाज़ की मदद से फसल बेचना बहुत आसान हो गया है। अब मुझे लिखना नहीं पड़ता।",
+    },
+    {
+      name: "प्रिया शर्मा",
+      location: "नासिक, महाराष्ट्र",
+      crop: "सब्जी",
+      income: "₹38,000",
+      image: "/images/female-farmer-vegetables.jpg",
+      story: "ब्लॉकचेन तकनीक से मेरी फसल की पूरी जानकारी ग्राहकों को मिलती है। भरोसा बढ़ा है।",
     },
   ]
 
@@ -236,8 +269,55 @@ export default function HomePage() {
         </motion.section>
       )}
 
-      {/* Features Grid */}
+      {/* Success Stories Section */}
       <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4 text-gray-800">सफलता की कहानियां</h2>
+            <p className="text-gray-600">हमारे किसान भाई-बहनों की सफलता</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {successStories.map((story, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+              >
+                <Card className="h-full hover:shadow-xl transition-all duration-300 border-2 border-green-100 hover:border-green-300">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <img
+                        src={story.image || "/placeholder.svg"}
+                        alt={story.name}
+                        className="w-16 h-16 object-cover rounded-full border-2 border-green-200"
+                      />
+                      <div>
+                        <h3 className="font-bold text-lg text-gray-800">{story.name}</h3>
+                        <p className="text-sm text-gray-600 flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                          {story.location}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge className="bg-green-600 text-xs">{story.crop}</Badge>
+                          <Badge variant="secondary" className="bg-orange-100 text-orange-800 text-xs">
+                            {story.income}/महीना
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-gray-700 italic text-sm">"{story.story}"</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4 text-gray-800">KisanSetu क्यों चुनें?</h2>

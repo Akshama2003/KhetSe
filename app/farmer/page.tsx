@@ -3,61 +3,87 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { Wallet, TrendingUp, Package, Users, Star, Plus, Shield, Coins } from "lucide-react"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Mic, Plus, Upload, Wallet, TrendingUp, Users, Shield, Camera, MapPin, Leaf, Star, Coins } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import VoiceInterface from "@/components/voice-interface"
 
 export default function FarmerDashboard() {
   const [isVoiceActive, setIsVoiceActive] = useState(false)
-  const [walletConnected, setWalletConnected] = useState(true)
-  const [profileCompletion, setProfileCompletion] = useState(85)
-  const [selectedLanguage, setSelectedLanguage] = useState("hindi")
+  const [selectedCrop, setSelectedCrop] = useState("")
+  const [cropQuantity, setCropQuantity] = useState("")
+  const [cropPrice, setCropPrice] = useState("")
 
-  const myListings = [
+  const farmerProfile = {
+    name: "राम सिंह",
+    location: "करनाल, हरियाणा",
+    image: "/images/male-farmer-cotton.jpg",
+    completeness: 85,
+    totalEarnings: "₹1,25,000",
+    monthlyEarnings: "₹45,000",
+    totalCrops: 12,
+    activeCrops: 5,
+    rating: 4.8,
+    verified: true
+  }
+
+  const myCrops = [
     {
       id: 1,
-      crop: "गेहूं (Wheat)",
-      quantity: "500 kg",
-      price: "₹25/kg",
-      status: "Active",
-      orders: 3,
-      location: "हरियाणा",
-      image: "/placeholder.svg?height=150&width=200",
-      verified: true,
+      name: "कपास",
+      quantity: "300 kg",
+      price: "₹45/kg",
+      status: "बिक्री के लिए उपलब्ध",
+      image: "/images/organic-vegetables.jpg",
+      harvestDate: "2024-01-15",
+      views: 45,
+      inquiries: 8
     },
     {
       id: 2,
-      crop: "चावल (Rice)",
-      quantity: "300 kg",
-      price: "₹30/kg",
-      status: "Sold Out",
-      orders: 8,
-      location: "पंजाब",
-      image: "/placeholder.svg?height=150&width=200",
-      verified: true,
+      name: "गेहूं",
+      quantity: "500 kg",
+      price: "₹25/kg",
+      status: "बेची गई",
+      image: "/images/wheat-grains.jpg",
+      harvestDate: "2024-01-10",
+      views: 32,
+      inquiries: 12
     },
+    {
+      id: 3,
+      name: "सरसों",
+      quantity: "200 kg",
+      price: "₹35/kg",
+      status: "पैकिंग में",
+      image: "/images/organic-vegetables.jpg",
+      harvestDate: "2024-01-20",
+      views: 28,
+      inquiries: 5
+    }
   ]
 
   const recentOrders = [
     {
       id: 1,
       buyer: "राजेश कुमार",
-      crop: "गेहूं",
+      crop: "कपास",
       quantity: "50 kg",
-      amount: "₹1,250",
-      status: "Delivered",
+      amount: "₹2,250",
+      status: "डिलीवर हो गया",
       blockchain: true,
     },
     {
       id: 2,
       buyer: "प्रिया शर्मा",
-      crop: "चावल",
-      quantity: "25 kg",
-      amount: "₹750",
-      status: "In Transit",
+      crop: "गेहूं",
+      quantity: "100 kg",
+      amount: "₹2,500",
+      status: "ट्रांजिट में",
       blockchain: true,
     },
   ]
@@ -65,319 +91,161 @@ export default function FarmerDashboard() {
   const fundingOffers = [
     {
       id: 1,
-      backer: "Urban Organic Co.",
-      crop: "टमाटर",
-      amount: "₹15,000",
-      expectedReturn: "200 kg",
-      timeline: "45 दिन",
-      status: "Pending",
+      backer: "अग्रिकल्चर फंड",
+      amount: "₹50,000",
+      crop: "कपास",
+      terms: "6 महीने, 8% ब्याज",
+      status: "स्वीकृत"
     },
+    {
+      id: 2,
+      backer: "ग्रीन इन्वेस्ट",
+      amount: "₹75,000",
+      crop: "जैविक सब्जी",
+      terms: "4 महीने, 10% रिटर्न",
+      status: "पेंडिंग"
+    }
+  ]
+
+  const cropOptions = [
+    "गेहूं", "चावल", "मक्का", "बाजरा", "ज्वार", "दाल", "चना", "मटर", 
+    "सरसों", "सूरजमुखी", "टमाटर", "प्याज", "आलू", "गाजर", "पत्तागोभी", "कपास"
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-green-50">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-orange-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b-2 border-orange-200">
+      <header className="bg-white shadow-sm border-b-2 border-green-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-orange-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">K</span>
+                <Leaf className="h-6 w-6 text-white" />
               </div>
               <div>
                 <span className="text-xl font-bold text-gray-800">KisanSetu</span>
-                <p className="text-xs text-orange-600">सीधा सौदा, सीधा भरोसा</p>
+                <p className="text-xs text-orange-600">किसान डैशबोर्ड</p>
               </div>
             </Link>
 
             <div className="flex items-center gap-4">
               <Button
-                variant={walletConnected ? "default" : "outline"}
-                onClick={() => setWalletConnected(!walletConnected)}
-                className={`flex items-center gap-2 ${walletConnected ? "bg-green-600 hover:bg-green-700" : ""}`}
+                variant="outline"
+                size="sm"
+                className={`border-2 ${isVoiceActive ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}`}
+                onClick={() => setIsVoiceActive(!isVoiceActive)}
               >
-                <Wallet className="h-4 w-4" />
-                {walletConnected ? "वॉलेट जुड़ा है" : "वॉलेट जोड़ें"}
-                {walletConnected && <Shield className="h-3 w-3 text-green-200" />}
+                <Mic className="h-4 w-4 mr-1" />
+                {isVoiceActive ? "बंद करें" : "आवाज़ सहायक"}
               </Button>
-
-              <div className="flex items-center gap-3 bg-orange-50 px-4 py-2 rounded-lg border border-orange-200">
-                <div className="w-10 h-10 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-semibold text-lg">र</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-800">राम सिंह जी</p>
-                  <p className="text-xs text-orange-600">करनाल, हरियाणा</p>
-                </div>
-              </div>
+              <Link href="/marketplace">
+                <Button variant="outline" className="border-orange-200 bg-transparent">
+                  बाज़ार देखें
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center md:text-left"
-          >
-            <h1 className="text-3xl font-bold mb-2 text-gray-800">🙏 नमस्ते राम सिंह जी!</h1>
-            <p className="text-gray-600 mb-4">आपके किसान डैशबोर्ड में स्वागत है</p>
-
-            {/* Profile Completion */}
-            <div className="bg-white p-4 rounded-lg border-2 border-orange-200 mb-6">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-700">प्रोफाइल पूर्णता</span>
-                <span className="text-sm font-bold text-orange-600">{profileCompletion}%</span>
-              </div>
-              <Progress value={profileCompletion} className="h-2" />
-              <p className="text-xs text-gray-500 mt-1">अपनी प्रोफाइल पूरी करें और अधिक ऑर्डर पाएं</p>
+      {/* Voice Assistant Active */}
+      {isVoiceActive && (
+        <motion.section
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="py-4 bg-green-600 text-white"
+        >
+          <div className="container mx-auto px-4 text-center">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+              <div className="w-2 h-2 bg-white rounded-full animate-pulse delay-75" />
+              <div className="w-2 h-2 bg-white rounded-full animate-pulse delay-150" />
             </div>
-          </motion.div>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <Card className="border-2 border-green-200 bg-gradient-to-br from-green-50 to-green-100">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-green-700 font-medium">कुल कमाई</p>
-                  <p className="text-2xl font-bold text-green-800">₹45,250</p>
-                  <p className="text-xs text-green-600">इस महीने +₹8,500</p>
-                </div>
-                <TrendingUp className="h-8 w-8 text-green-600" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-blue-700 font-medium">सक्रिय लिस्टिंग</p>
-                  <p className="text-2xl font-bold text-blue-800">3</p>
-                  <p className="text-xs text-blue-600">2 बिक गई</p>
-                </div>
-                <Package className="h-8 w-8 text-blue-600" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-purple-700 font-medium">कुल ऑर्डर</p>
-                  <p className="text-2xl font-bold text-purple-800">28</p>
-                  <p className="text-xs text-purple-600">सभी डिलीवर</p>
-                </div>
-                <Users className="h-8 w-8 text-purple-600" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-yellow-700 font-medium">रेटिंग</p>
-                  <p className="text-2xl font-bold text-yellow-800">4.8</p>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
-                    <p className="text-xs text-yellow-600">24 रिव्यू</p>
-                  </div>
-                </div>
-                <Star className="h-8 w-8 text-yellow-600" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Main Dashboard - 2 Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Panel - Crop Listings */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* My Crops */}
-            <Card className="border-2 border-green-200">
-              <CardHeader className="bg-gradient-to-r from-green-50 to-orange-50">
-                <CardTitle className="flex items-center gap-2 text-green-800">
-                  <Package className="h-5 w-5" />
-                  मेरी फसलें (My Crops)
-                </CardTitle>
-                <CardDescription>अपनी सूचीबद्ध फसलों को देखें और प्रबंधित करें</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  {myListings.map((listing) => (
-                    <motion.div
-                      key={listing.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="flex items-center gap-4 p-4 border-2 border-gray-200 rounded-lg hover:border-green-300 transition-all"
-                    >
-                      <img
-                        src={listing.image || "/placeholder.svg"}
-                        alt={listing.crop}
-                        className="w-20 h-20 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-gray-800">{listing.crop}</h3>
-                          {listing.verified && (
-                            <Badge className="bg-green-600 text-xs">
-                              <Shield className="h-3 w-3 mr-1" />
-                              ब्लॉकचेन वेरिफाइड
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
-                          <div>मात्रा: {listing.quantity}</div>
-                          <div>कीमत: {listing.price}</div>
-                          <div>ऑर्डर: {listing.orders}</div>
-                          <div>स्थान: {listing.location}</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <Badge
-                          variant={listing.status === "Active" ? "default" : "secondary"}
-                          className={listing.status === "Active" ? "bg-green-600" : ""}
-                        >
-                          {listing.status === "Active" ? "सक्रिय" : "बिक गई"}
-                        </Badge>
-                        <div className="flex gap-1 mt-2">
-                          <Button variant="outline" size="sm" className="text-xs bg-transparent">
-                            एडिट
-                          </Button>
-                          <Button variant="outline" size="sm" className="text-xs bg-transparent">
-                            देखें
-                          </Button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Recent Orders */}
-            <Card className="border-2 border-blue-200">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-green-50">
-                <CardTitle className="flex items-center gap-2 text-blue-800">
-                  <Users className="h-5 w-5" />
-                  हाल के ऑर्डर (Recent Orders)
-                </CardTitle>
-                <CardDescription>अपनी बिक्री और डिलीवरी को ट्रैक करें</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  {recentOrders.map((order) => (
-                    <div
-                      key={order.id}
-                      className="flex items-center justify-between p-4 border-2 border-gray-200 rounded-lg"
-                    >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-gray-800">{order.buyer}</h3>
-                          {order.blockchain && (
-                            <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800">
-                              <Shield className="h-3 w-3 mr-1" />
-                              ब्लॉकचेन
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="grid grid-cols-3 gap-2 text-sm text-gray-600">
-                          <div>फसल: {order.crop}</div>
-                          <div>मात्रा: {order.quantity}</div>
-                          <div>राशि: {order.amount}</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <Badge
-                          variant={order.status === "Delivered" ? "default" : "secondary"}
-                          className={order.status === "Delivered" ? "bg-green-600" : "bg-orange-500"}
-                        >
-                          {order.status === "Delivered" ? "डिलीवर" : "ट्रांजिट में"}
-                        </Badge>
-                        <div className="flex gap-1 mt-2">
-                          <Button variant="outline" size="sm" className="text-xs bg-transparent">
-                            ट्रैक
-                          </Button>
-                          <Button variant="outline" size="sm" className="text-xs bg-transparent">
-                            कॉल
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <p className="text-sm">🎤 कहें: "मैं 50 किलो कपास बेचना चाहता हूँ" या "आज का भाव क्या है?"</p>
           </div>
+        </motion.section>
+      )}
 
-          {/* Right Panel - Actions & Wallet */}
-          <div className="space-y-6">
-            {/* Add New Crop - Voice First */}
-            <Card className="border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-orange-800">
-                  <Plus className="h-5 w-5" />
-                  नई फसल जोड़ें
-                </CardTitle>
-                <CardDescription>आवाज़ से या फॉर्म भरकर</CardDescription>
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Panel - Profile & Stats */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Profile Card */}
+            <Card className="border-2 border-green-200">
+              <CardHeader className="text-center">
+                <div className="relative mx-auto w-20 h-20 mb-4">
+                  <img
+                    src={farmerProfile.image || "/placeholder.svg"}
+                    alt={farmerProfile.name}
+                    className="w-full h-full rounded-full object-cover border-2 border-green-300"
+                  />
+                  {farmerProfile.verified && (
+                    <div className="absolute -bottom-1 -right-1 bg-green-600 rounded-full p-1">
+                      <Shield className="h-3 w-3 text-white" />
+                    </div>
+                  )}
+                </div>
+                <CardTitle className="text-xl text-gray-800">{farmerProfile.name}</CardTitle>
+                <CardDescription className="flex items-center justify-center gap-1">
+                  <MapPin className="h-3 w-3" />
+                  {farmerProfile.location}
+                </CardDescription>
+                <div className="flex items-center justify-center gap-1 mt-2">
+                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                  <span className="font-medium">{farmerProfile.rating}</span>
+                  <Badge className="ml-2 bg-green-600 text-xs">वेरिफाइड</Badge>
+                </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <VoiceInterface
-                  language={selectedLanguage as any}
-                  onVoiceCommand={(command) => {
-                    console.log("Voice command:", command)
-                  }}
-                />
-
-                <div className="text-center">
-                  <p className="text-sm text-gray-600 mb-3">या मैन्युअल रूप से भरें</p>
-                  <Button className="w-full bg-orange-500 hover:bg-orange-600">
-                    <Plus className="h-4 w-4 mr-2" />
-                    फॉर्म भरें
-                  </Button>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span>प्रोफाइल पूर्णता</span>
+                      <span>{farmerProfile.completeness}%</span>
+                    </div>
+                    <Progress value={farmerProfile.completeness} className="h-2" />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    <div className="bg-green-50 p-3 rounded-lg">
+                      <p className="text-2xl font-bold text-green-700">{farmerProfile.totalCrops}</p>
+                      <p className="text-xs text-gray-600">कुल फसलें</p>
+                    </div>
+                    <div className="bg-orange-50 p-3 rounded-lg">
+                      <p className="text-2xl font-bold text-orange-700">{farmerProfile.activeCrops}</p>
+                      <p className="text-xs text-gray-600">सक्रिय फसलें</p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Wallet Summary */}
-            <Card className="border-2 border-green-200">
-              <CardHeader className="bg-gradient-to-r from-green-50 to-blue-50">
-                <CardTitle className="flex items-center gap-2 text-green-800">
+            {/* Earnings Card */}
+            <Card className="border-2 border-orange-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-orange-700">
                   <Wallet className="h-5 w-5" />
-                  वॉलेट सारांश
+                  आमदनी
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="p-3 bg-green-50 rounded-lg border border-green-200">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-green-700">INR बैलेंस</span>
-                      <Shield className="h-4 w-4 text-green-600" />
-                    </div>
-                    <p className="text-2xl font-bold text-green-800">₹12,450</p>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-green-700">{farmerProfile.monthlyEarnings}</p>
+                    <p className="text-sm text-gray-600">इस महीने</p>
                   </div>
-
-                  <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-blue-700">$KRISHI टोकन</span>
-                      <Coins className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <p className="text-2xl font-bold text-blue-800">1,250 KRISHI</p>
+                  <div className="text-center">
+                    <p className="text-xl font-semibold text-gray-700">{farmerProfile.totalEarnings}</p>
+                    <p className="text-sm text-gray-600">कुल आमदनी</p>
                   </div>
-
                   <div className="grid grid-cols-2 gap-2">
-                    <Button variant="outline" size="sm" className="bg-transparent">
-                      UPI में निकालें
+                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      रिपोर्ट
                     </Button>
-                    <Button variant="outline" size="sm" className="bg-transparent">
-                      टोकन ट्रेड
+                    <Button size="sm" variant="outline" className="border-green-200 bg-transparent">
+                      <Coins className="h-3 w-3 mr-1" />
+                      टोकन
                     </Button>
                   </div>
                 </div>
@@ -385,37 +253,131 @@ export default function FarmerDashboard() {
             </Card>
 
             {/* Funding Offers */}
-            <Card className="border-2 border-purple-200">
-              <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50">
-                <CardTitle className="flex items-center gap-2 text-purple-800">
-                  <Plus className="h-5 w-5" />
-                  फंडिंग ऑफर
+            <Card className="border-2 border-blue-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-blue-700">
+                  <Users className="h-5 w-5" />
+                  फंडिंग ऑफर्स
                 </CardTitle>
-                <CardDescription>आपके लिए फंडिंग के अवसर</CardDescription>
               </CardHeader>
               <CardContent>
-                {fundingOffers.map((offer) => (
-                  <div key={offer.id} className="p-3 border border-purple-200 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-semibold text-sm">{offer.backer}</h4>
-                      <Badge className="bg-purple-600 text-xs">नया</Badge>
+                <div className="space-y-3">
+                  {fundingOffers.map((offer) => (
+                    <div key={offer.id} className="p-3 bg-blue-50 rounded-lg">
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-medium text-sm">{offer.backer}</h4>
+                        <Badge 
+                          variant={offer.status === "स्वीकृत" ? "default" : "secondary"}
+                          className="text-xs"
+                        >
+                          {offer.status}
+                        </Badge>
+                      </div>
+                      <p className="text-lg font-bold text-blue-700">{offer.amount}</p>
+                      <p className="text-xs text-gray-600">{offer.crop} • {offer.terms}</p>
                     </div>
-                    <div className="text-xs text-gray-600 space-y-1">
-                      <div>फसल: {offer.crop}</div>
-                      <div>राशि: {offer.amount}</div>
-                      <div>रिटर्न: {offer.expectedReturn}</div>
-                      <div>समय: {offer.timeline}</div>
-                    </div>
-                    <Button size="sm" className="w-full mt-3 bg-purple-600 hover:bg-purple-700">
-                      स्वीकार करें
-                    </Button>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+
+          {/* Right Panel - Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Add New Crop */}
+            <Card className="border-2 border-green-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-green-700">
+                  <Plus className="h-5 w-5" />
+                  नई फसल जोड़ें
+                </CardTitle>
+                <CardDescription>
+                  आवाज़ की मदद से या मैन्युअल रूप से अपनी फसल की जानकारी दें
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">फसल का नाम</label>
+                    <Select value={selectedCrop} onValueChange={setSelectedCrop}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="फसल चुनें" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {cropOptions.map((crop) => (
+                          <SelectItem key={crop} value={crop}>
+                            {crop}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">मात्रा (kg)</label>
+                    <Input
+                      placeholder="जैसे: 500"
+                      value={cropQuantity}
+                      onChange={(e) => setCropQuantity(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">कीमत (प्रति kg)</label>
+                    <Input
+                      placeholder="जैसे: 25"
+                      value={cropPrice}
+                      onChange={(e) => setCropPrice(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">हार्वेस्ट की तारीख</label>
+                    <Input type="date" />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-2">विवरण</label>
+                    <Textarea placeholder="अपनी फसल के बारे में बताएं..." />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <div className="flex gap-4">
+                      <Button className="flex-1 bg-green-600 hover:bg-green-700">
+                        <Upload className="h-4 w-4 mr-2" />
+                        फसल अपलोड करें
+                      </Button>
+                      <Button variant="outline" className="border-orange-200 bg-transparent">
+                        <Camera className="h-4 w-4 mr-2" />
+                        फोटो लें
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className={`border-2 ${isVoiceActive ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}`}
+                        onClick={() => setIsVoiceActive(!isVoiceActive)}
+                      >
+                        <Mic className="h-4 w-4 mr-2" />
+                        आवाज़
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* My Crops */}
+            <Card className="border-2 border-blue-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-blue-700">
+                  <Leaf className="h-5 w-5" />
+                  मेरी फसलें
+                </CardTitle>
+                <CardDescription>अपनी सूचीबद्ध फसलों को देखें और प्रबंधित करें</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {myCrops.map((crop) => (
+                    <motion.div
+                      key={crop.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{
